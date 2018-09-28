@@ -4,6 +4,7 @@ import {
 } from '@angular/core'
 import { ImageService } from '../services/image.service'
 import { Subscription } from 'rxjs/internal/Subscription'
+import { Observable } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 
 @Component({
@@ -28,6 +29,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     @Input('galleryName') providedGalleryName: string = ''
     @Input('metadataUri') providedMetadataUri: string = undefined
     @Input('maxRowsPerPage') rowsPerPage: number = 200
+    @Input('myData') providedData: Observable<any[]>
 
     @Output() viewerChange = new EventEmitter<boolean>()
 
@@ -98,7 +100,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
                 this.imageDataStaticPath + this.dataFileName
         }
 
-        this.http.get(this.imageDataCompletePath)
+        this.providedData
           .subscribe(
             (data: Array<any>) => {
                     this.images = data
